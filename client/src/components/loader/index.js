@@ -44,6 +44,7 @@ export default ({ sceneName, gamma, resolution, reflections, onParamChange, onSt
         </h3>
         <select value={sceneName} onChange={(e) => {onParamChange('sceneName', e.target.value)}}>
           <option value="random">Random</option>
+          <option value="room">Room</option>
         </select>
 
         <h3>
