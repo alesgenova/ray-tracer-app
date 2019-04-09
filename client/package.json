@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "homepage": "http://alesgenova.github.io/ray-tracer-app",
   "private": true,
   "dependencies": {
     "ray-tracer-wasm": "file:../wasm/pkg",
