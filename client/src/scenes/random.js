@@ -15,8 +15,8 @@ export default function(aspect) {
   const N_SPHERES_X = 20;
   const N_SPHERES_Y = N_SPHERES_X;
 
-  const MIN_X = -30.0;
-  const MAX_X = 30.0;
+  const MIN_X = -25.0;
+  const MAX_X = 25.0;
 
   const MIN_Y = MIN_X;
   const MAX_Y = MAX_X;
@@ -114,14 +114,14 @@ export default function(aspect) {
   let texture0 = Texture.uniform([1.0, 1.0, 1.0]);
   let texture1 = Texture.uniform([0.85, 0.85, 0.85]);
   let texture = Texture.checker(texture0, texture1);
-  let material = Material.lambertian(texture, 1.0);
+  let material = Material.lambertian(texture, 0.7);
   let actor = Actor.new(hitable, material);
   scene.add_actor(actor);
   }
 
   // Light
   {
-  let hitable = Hitable.sphere(6.0);
+  let hitable = Hitable.sphere(4.0);
   hitable = Hitable.translation(hitable, [0.0, 5.0, 15.2]);
   let color = new Float64Array([1.0, 1.0, 1.0]);
   let texture = Texture.uniform(color);
