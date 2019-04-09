@@ -13,7 +13,7 @@ default = ["console_error_panic_hook"]
 [dependencies]
 wasm-bindgen = "=0.2.34"
 rand = { version = "0.6", default-features = false, features = ["wasm-bindgen"]}
-ray-tracer = {path = "../../ray-tracer"}
+ray-tracer = "0.1"
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
