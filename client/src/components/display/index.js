@@ -6,9 +6,6 @@ import StopIcon from '../../icons/stop.svg';
 import PauseIcon from '../../icons/pause.svg';
 import PlayIcon from '../../icons/play.svg';
 
-import { createScene } from '../../scenes';
-import { Renderer } from 'ray-tracer-wasm';
-
 class DisplayComponent extends Component {
 
   canvas;
@@ -38,20 +35,14 @@ class DisplayComponent extends Component {
     const {
       width, height,
       sceneName,
-      reflections
+      reflections,
+      workerPool
     } = this.props;
 
     this.pause = false;
 
     this.width = width;
     this.height = height;
-
-    let aspect = width / height;
-    let { scene, camera } = createScene(sceneName, aspect);
-    this.scene = scene;
-    this.camera = camera;
-    this.previewRenderer = Renderer.new(width, height, 0, 0, false);
-    this.renderer = Renderer.new(width, height, 0, reflections, false);
 
     this.canvas = document.createElement('canvas');
     this.canvas.width = this.width;
@@ -62,11 +53,16 @@ class DisplayComponent extends Component {
 
     this.image = new Float64Array(this.width * this.height * 3);
 
-    this.chunkSize = 1000;
+    this.chunkSize = 2000;
 
     this.maxIteration = 256;
 
-    this.mainLoop(0, -1);
+    const seed = Math.floor(Math.random() * 2147483646);
+    Promise.all(
+      workerPool.broadcast('initialize', sceneName, width, height, reflections, seed)
+    ).then(() => {
+      this.mainLoop(-1);
+    });
   }
 
   componentDidUpdate() {
@@ -84,51 +80,54 @@ class DisplayComponent extends Component {
       let i = Math.floor(index / this.width);
       let j = index % this.width;
       this.renderer.render_pixel(j, i, this.scene, this.camera, color);
-      resolve({i, j, color});
+      resolve({ i, j, color });
     });
   }
 
-  mainLoop = (index, iteration) => {
+  mainLoop = (iteration) => {
+    this.iteration = iteration;
+
     if (this.pause || iteration > this.maxIteration) {
       return;
     }
 
-    let renderer = this.renderer;
-    if (iteration < 0) {
-      renderer = this.previewRenderer;
+    const { workerPool } = this.props;
+
+    const tasks = [];
+    const size = this.width * this.height;
+    let start = 0;
+    let stop = Math.min(size, start + this.chunkSize);
+    const t0 = new Date();
+    while (start < size) {
+      const thisStart = start;
+      const thisStop = stop;
+      tasks.push(
+        workerPool.call('renderChunk', thisStart, thisStop, iteration).then((colors) => {
+          this.updateImage(thisStart, thisStop, iteration, colors);
+          this.updateCanvas(this.image);
+        })
+      );
+      start = stop;
+      stop = Math.min(size, start + this.chunkSize);
     }
 
-    let color = new Float64Array(3);
-    const stop = Math.min(this.width * this.height, index + this.chunkSize);
-    for (let k = index; k < stop; ++k) {
-      let i = Math.floor(k / this.width);
-      let j = k % this.width;
-      renderer.render_pixel(j, i, this.scene, this.camera, color);
-      this.updateImage(k, iteration, color);
-    }
-
-    this.updateCanvas(this.image);
-    
-    let newIndex = stop;
-    let newIteration = iteration;
-    if (stop === this.width * this.height) {
-      newIndex = 0;
-      newIteration += 1;
-    }
-
-    this.currentIndex = stop;
-    this.iteration = newIteration;
-
-    requestAnimationFrame(() => {
-      this.mainLoop(newIndex, newIteration);
+    Promise.all(tasks).then(() => {
+      const t1 = new Date();
+      console.log("All tasks done!", iteration, "Elapsed: ", (t1 - t0) / 1000);
+      requestAnimationFrame(() => {
+        this.mainLoop(iteration + 1);
+      });
     });
   }
 
-  updateImage(index, iteration, color) {
+  updateImage(start, stop, iteration, colors) {
     iteration = Math.max(0, iteration);
     let frac = 1 / (iteration + 1);
-    for (let i = 0; i < 3; ++i) {
-      this.image[index * 3 + i] = (1 - frac) * this.image[index * 3 + i] + frac * color[i];
+    for (let j = 0; j < stop - start; ++j) {
+      const index = j + start;
+      for (let i = 0; i < 3; ++i) {
+        this.image[index * 3 + i] = (1 - frac) * this.image[index * 3 + i] + frac * colors[j * 3 + i];
+      }
     }
   }
 
@@ -142,7 +141,9 @@ class DisplayComponent extends Component {
       this.imageData.data[i * 4 + 3] = 255;
     }
     this.context.putImageData(this.imageData, 0, 0);
-    this.imageElement.src = this.canvas.toDataURL();
+    if (this.imageElement) {
+      this.imageElement.src = this.canvas.toDataURL();
+    }
   }
 
   onPause = () => {
@@ -150,7 +151,7 @@ class DisplayComponent extends Component {
 
     this.pause = !pause;
     if (pause) {
-      this.mainLoop(this.currentIndex, this.iteration);
+      this.mainLoop(this.iteration);
     }
 
     this.setState(state => {
@@ -159,35 +160,31 @@ class DisplayComponent extends Component {
     });
   }
 
-  onStop = () => {
-
-  }
-
   render() {
     const { onStop } = this.props;
     const { pause } = this.state;
 
     return (
-      <div className="full" style={{position: 'relative'}}>
-        <div style={{width: '100%', maxWidth: '75rem', position: 'absolute', left: '50%', top: '2rem', transform: 'translateX(-50%)'}}>
-          <div style={{width: '100%'}}>
-            <img style={{width: '100%'}} ref={ref => {this.imageElement = ref;}}/>
+      <div className="full" style={{ position: 'relative' }}>
+        <div style={{ width: '100%', maxWidth: '75rem', position: 'absolute', left: '50%', top: '2rem', transform: 'translateX(-50%)' }}>
+          <div style={{ width: '100%' }}>
+            <img style={{ width: '100%' }} ref={ref => { this.imageElement = ref; }} />
           </div>
         </div>
         <div className="floating-container-center">
           <button
             onClick={this.onPause}
             className="floating-button-large"
-            style={{backgroundColor: PRIMARY_LIGHT, color: SECONDARY_TEXT, marginRight: '1rem'}}
+            style={{ backgroundColor: PRIMARY_LIGHT, color: SECONDARY_TEXT, marginRight: '1rem' }}
           >
-            <ion-icon src={pause ? PlayIcon : PauseIcon}/>
+            <img src={pause ? PlayIcon : PauseIcon} />
           </button>
           <button
             onClick={onStop}
             className="floating-button-large"
-            style={{backgroundColor: SECONDARY, color: SECONDARY_TEXT}}
+            style={{ backgroundColor: SECONDARY, color: SECONDARY_TEXT }}
           >
-            <ion-icon src={StopIcon}/>
+            <img src={StopIcon} />
           </button>
         </div>
       </div>
