@@ -165,11 +165,9 @@ class DisplayComponent extends Component {
     const { pause } = this.state;
 
     return (
-      <div className="full" style={{ position: 'relative' }}>
-        <div style={{ width: '100%', maxWidth: '75rem', position: 'absolute', left: '50%', top: '2rem', transform: 'translateX(-50%)' }}>
-          <div style={{ width: '100%' }}>
-            <img style={{ width: '100%' }} ref={ref => { this.imageElement = ref; }} />
-          </div>
+      <React.Fragment>
+        <div className="content" style={{ textAlign: 'center' }}>
+          <img style={{ width: '100%' }} ref={ref => { this.imageElement = ref; }} />
         </div>
         <div className="floating-container-center">
           <button
@@ -187,7 +185,7 @@ class DisplayComponent extends Component {
             <img src={StopIcon} />
           </button>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

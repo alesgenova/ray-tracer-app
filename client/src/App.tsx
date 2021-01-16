@@ -1,11 +1,10 @@
 import React from 'react';
 import { WorkerMessenger, ParentHandshake, DebugMessenger, Connection, debug } from "post-me";
 
-import './App.css';
-
 import HeaderComponent from './components/header';
 import LoaderComponent from './components/loader';
 import DisplayComponent from './components/display';
+import { BACKGROUND } from './constants/colors';
 
 import { WorkerPool } from './pool';
 
@@ -81,11 +80,9 @@ class App extends React.Component<Props, State> {
     const { sceneName, resolution, reflections, gamma, workerPool, loaded, loading } = this.state;
 
     return (
-      <div className="app">
+      <div className="app" style={{ backgroundColor: BACKGROUND }}>
         <HeaderComponent />
-
         <div className="content-container">
-
           {!loaded &&
             <LoaderComponent
               sceneName={sceneName}
@@ -109,7 +106,6 @@ class App extends React.Component<Props, State> {
               onStop={this.onStop}
             />
           }
-
         </div>
       </div>
     );

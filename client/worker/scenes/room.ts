@@ -9,7 +9,7 @@ import {
 
 export default function (aspect: number) {
   let scene = Scene.new();
-  // scene.set_background([0.5, 0.5, 0.5]);
+  scene.set_background([0.5, 0.5, 0.5] as any);
 
   let length = 16;
   let width = 16;

@@ -6,7 +6,7 @@ import PlayIcon from '../../icons/play.svg';
 
 export default ({ sceneName, gamma, resolution, reflections, onParamChange, onStart, loading }) => {
   return (
-    <div className="full" style={{ backgroundColor: BACKGROUND, position: 'relative' }}>
+    <React.Fragment>
       <div className="content" style={{ textAlign: 'center' }}>
         <h2>
           Rust + WebAssembly Path Tracer
@@ -78,7 +78,6 @@ export default ({ sceneName, gamma, resolution, reflections, onParamChange, onSt
           <option value={3.0}>3.0</option>
         </select>
       </div>
-
       <div className="floating-container-center">
         <button
           disabled={loading}
@@ -89,6 +88,6 @@ export default ({ sceneName, gamma, resolution, reflections, onParamChange, onSt
           <img src={PlayIcon} />
         </button>
       </div>
-    </div>
+    </React.Fragment>
   )
 }
