@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/ray-tracer-app/static/css/main.2b749c87.chunk.css",
-    "main.js": "/ray-tracer-app/static/js/main.5255776f.chunk.js",
-    "main.js.map": "/ray-tracer-app/static/js/main.5255776f.chunk.js.map",
-    "runtime-main.js": "/ray-tracer-app/static/js/runtime-main.99377704.js",
-    "runtime-main.js.map": "/ray-tracer-app/static/js/runtime-main.99377704.js.map",
-    "static/js/2.c96b1652.chunk.js": "/ray-tracer-app/static/js/2.c96b1652.chunk.js",
-    "static/js/2.c96b1652.chunk.js.map": "/ray-tracer-app/static/js/2.c96b1652.chunk.js.map",
-    "static/js/3.1d2a5a18.chunk.js": "/ray-tracer-app/static/js/3.1d2a5a18.chunk.js",
-    "static/js/3.1d2a5a18.chunk.js.map": "/ray-tracer-app/static/js/3.1d2a5a18.chunk.js.map",
+    "main.css": "/ray-tracer-app/static/css/main.7e23ca2e.chunk.css",
+    "main.js": "/ray-tracer-app/static/js/main.49955498.chunk.js",
+    "main.js.map": "/ray-tracer-app/static/js/main.49955498.chunk.js.map",
+    "runtime-main.js": "/ray-tracer-app/static/js/runtime-main.af6af164.js",
+    "runtime-main.js.map": "/ray-tracer-app/static/js/runtime-main.af6af164.js.map",
+    "static/js/2.e45e102c.chunk.js": "/ray-tracer-app/static/js/2.e45e102c.chunk.js",
+    "static/js/2.e45e102c.chunk.js.map": "/ray-tracer-app/static/js/2.e45e102c.chunk.js.map",
+    "static/js/3.1277e98b.chunk.js": "/ray-tracer-app/static/js/3.1277e98b.chunk.js",
+    "static/js/3.1277e98b.chunk.js.map": "/ray-tracer-app/static/js/3.1277e98b.chunk.js.map",
     "index.html": "/ray-tracer-app/index.html",
-    "static/css/main.2b749c87.chunk.css.map": "/ray-tracer-app/static/css/main.2b749c87.chunk.css.map",
-    "static/js/2.c96b1652.chunk.js.LICENSE.txt": "/ray-tracer-app/static/js/2.c96b1652.chunk.js.LICENSE.txt",
+    "static/css/main.7e23ca2e.chunk.css.map": "/ray-tracer-app/static/css/main.7e23ca2e.chunk.css.map",
+    "static/js/2.e45e102c.chunk.js.LICENSE.txt": "/ray-tracer-app/static/js/2.e45e102c.chunk.js.LICENSE.txt",
     "static/media/pause.917fd899.svg": "/ray-tracer-app/static/media/pause.917fd899.svg",
     "static/media/play.f8ecb826.svg": "/ray-tracer-app/static/media/play.f8ecb826.svg",
     "static/media/stop.2f57eafa.svg": "/ray-tracer-app/static/media/stop.2f57eafa.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.99377704.js",
-    "static/js/2.c96b1652.chunk.js",
-    "static/css/main.2b749c87.chunk.css",
-    "static/js/main.5255776f.chunk.js"
+    "static/js/runtime-main.af6af164.js",
+    "static/js/2.e45e102c.chunk.js",
+    "static/css/main.7e23ca2e.chunk.css",
+    "static/js/main.49955498.chunk.js"
   ]
 }

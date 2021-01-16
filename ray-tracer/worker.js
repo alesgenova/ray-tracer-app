@@ -2179,8 +2179,8 @@ function randomScene(aspect, seed) {
 }
 
 function roomScene(aspect) {
-  var scene = Scene.new(); // scene.set_background([0.5, 0.5, 0.5]);
-
+  var scene = Scene.new();
+  scene.set_background([0.5, 0.5, 0.5]);
   var length = 16;
   var width = 16;
   var height = 9;
