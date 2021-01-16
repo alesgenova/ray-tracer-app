@@ -13,3 +13,16 @@ A ray tracing demo using Rust and WebAssembly
 
 ### Single Page App
 - React ([source](https://github.com/alesgenova/ray-tracer-app/tree/master/client))
+
+### Building
+```bash
+# Build wasm
+# Prerequisite: cargo and wasm-pack
+cd wasm
+wasm-pack --target web
+
+# Start the app
+cd ../client
+npm install
+npm run start
+```
