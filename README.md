@@ -8,6 +8,9 @@ A ray tracing demo using Rust and WebAssembly
 ### Core Ray Tracing Engine
 - Rust ([source](https://github.com/alesgenova/ray-tracer))
 
+### Communication with web worker
+- post-me ([source](https://github.com/alesgenova/post-me))
+
 ### WebAssembly Wrapper
 - Rust / wasm-bindgen ([source](https://github.com/alesgenova/ray-tracer-app/tree/master/wasm))
 
