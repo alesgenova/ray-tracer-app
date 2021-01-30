@@ -22,7 +22,7 @@ A ray tracing demo using Rust and WebAssembly
 # Build wasm
 # Prerequisite: cargo and wasm-pack
 cd wasm
-wasm-pack --target web
+wasm-pack build --target web
 
 # Start the app
 cd ../client
